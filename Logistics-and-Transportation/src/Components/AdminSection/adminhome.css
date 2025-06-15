@@ -1,0 +1,85 @@
+ /* body {
+     background-image: url('../../../public/adminhome2.avif');
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+     height: 100vh;
+     color: white;
+ } */
+
+ .container {
+     display: grid;
+     grid-template-rows: repeat(2, 1fr);
+     grid-template-columns: repeat(3, 1fr);
+     border-radius: 20px;
+     height: 70vh;
+     padding: 10px;
+     gap: 10px;
+     border: 2px solid rgba(255, 255, 255, 0.1);
+     justify-content: space-around;
+    align-items: center;
+     background-color: rgba(255, 255, 255, 0.1);
+     backdrop-filter: blur(4px);
+     width: 90vw;
+     padding: 20px;
+     margin: auto;
+ }
+
+ .card {
+     text-align: center;
+     border: 3px solid rgb(237, 232, 232);
+     border-radius: 10px;
+     padding: 10px;
+     margin: 10px;
+     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+     height: 20vh;
+     width: 20vw;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+
+ .card:hover {
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+ }
+
+ /* button {
+    line-height: 1;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.75em 1em;
+    padding-right: 1.25em;
+    color: #fff;
+    border: 1px solid transparent;
+    font-weight: 700;
+    border-radius: 2em;
+    font-size: 1rem;
+    box-shadow: 0 0.7em 1.5em -0.5em hsla(249, 62%, 51%, 0.745);
+    transition: transform 0.3s;
+  
+    background: linear-gradient(
+      90deg,
+      rgba(77, 54, 208, 1) 0%,
+      rgba(132, 116, 254, 1) 100%
+    );
+  }
+  
+  .button__icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+  
+  .button:hover {
+    border-color: #f4f5f2;
+  }
+  
+  .button:active {
+    transform: scale(0.98);
+    box-shadow: 0 0.5em 1.5em -0.5em hsla(249, 20%, 79%, 0.745);
+  }
+   */
+ 
