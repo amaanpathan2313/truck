@@ -1,7 +1,8 @@
  # Logistics-and-Transportation
 
+* admin : id : admin@gmail.com  ||  Password : 123456
+* Link : https://6851afee8a7d555849494ef4--teal-chebakia-02d743.netlify.app/
 
- # video :  
 
 ## Overview
 This is a React-based web application designed to manage truck-related information, including truck details, driver information, transport history, maintenance schedules, and revenue tracking. The application uses Firebase Realtime Database for data storage and retrieval and is styled with CSS for a responsive and visually appealing user interface.
