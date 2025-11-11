@@ -1,0 +1,23 @@
+ .container {
+     /* border: 2px solid black; */
+     display: flex;
+     height: 20vh;
+     margin-top: 0px;
+ }
+
+ input {
+     padding: 10px;
+     margin: 10px;
+ }
+
+ h1 {
+    font-size: 10vh;
+    color: white;
+    padding: 20px;
+     text-align: center;
+     padding-top: 10vh;
+ }
+
+ button {
+     padding: 10px;
+ }
