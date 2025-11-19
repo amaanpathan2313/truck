@@ -1,6 +1,8 @@
   # 🚛 Logistics & Transportation Management System
  
  Deployed Link :  https://logistics-transportation.netlify.app/
+
+ * admin : id : admin@gmail.com  ||  Password : 123456
   
  A beautiful, responsive full-stack note-taking application built with Express.js backend and vanilla HTML/CSS/JavaScript frontend.
  
