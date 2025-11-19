@@ -2,11 +2,8 @@
  
  Deployed Link :  https://logistics-transportation.netlify.app/
 
- 
-=======
  * admin : id : admin@gmail.com  ||  Password : 123456
->>>>>>> 6f2c71cb32c6b87e9a0284b87b4eb99dc37f30e9
-  
+   
  A beautiful, responsive full-stack note-taking application built with Express.js backend and vanilla HTML/CSS/JavaScript frontend.
  
  # Project Screenshots :  <a href = 'https://github.com/amaanpathan2313/truck/blob/main/Logistics-and-Transportation%202.0/README.md'> Screenshots </a>
