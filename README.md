@@ -2,8 +2,10 @@
  
  Deployed Link :  https://logistics-transportation.netlify.app/
 
-* id : admin@gmail.com  ||  Password : 123456
  
+=======
+ * admin : id : admin@gmail.com  ||  Password : 123456
+>>>>>>> 6f2c71cb32c6b87e9a0284b87b4eb99dc37f30e9
   
  A beautiful, responsive full-stack note-taking application built with Express.js backend and vanilla HTML/CSS/JavaScript frontend.
  
