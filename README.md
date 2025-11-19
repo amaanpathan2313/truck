@@ -4,28 +4,9 @@
   
  A beautiful, responsive full-stack note-taking application built with Express.js backend and vanilla HTML/CSS/JavaScript frontend.
  
- # Project Screenshots : 
+ # Project Screenshots :  <a href = 'https://github.com/amaanpathan2313/truck/blob/main/Logistics-and-Transportation%202.0/README.md'> Screenshots </a>
  
- * Index page
- ![Index_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/index_page.png)
  
- * Login Page
- ![Login_Page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/login_page.png)
- 
- * Dashbord Page
- ![Dashbord_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/Dashbord.png)
- 
- * Driver management page
- ![Driver_management_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/Driver_management_section.JPG)
- 
- * Transport History page
- ![transport_History_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/transport_History.png)
- 
- * Truck management page
- ![truck_management_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/truck_management.JPG)
- 
- * revenue Analytics page
- ![revenue_Analyticse](../truck/Logistics-and-Transportation%202.0/project_screenshorts/revenue_Analytics.JPG)
  
  A modern, responsive web application for managing logistics and transportation operations with user management, and revenue analytics.
  
