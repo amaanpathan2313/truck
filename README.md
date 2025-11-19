@@ -1,4 +1,8 @@
+<<<<<<< HEAD
  # 🚛 Logistics & Transportation Management System
+=======
+  # 🚛 Logistics & Transportation Management System
+>>>>>>> c7ef98fcb4a5fa8d5d260705a2434f1a9cf4cb13
 
 Deployed Link :  https://logistics-transportation.netlify.app/
  
@@ -7,6 +11,7 @@ A beautiful, responsive full-stack note-taking application built with Express.js
 # Project Screenshots : 
 
 * Index page
+<<<<<<< HEAD
 ![Index_page](../truck/Logistics-and-Transportation%202.0/project_screenshorts/index_page.png)
 
 * Login Page
@@ -26,6 +31,27 @@ A beautiful, responsive full-stack note-taking application built with Express.js
 
 * revenue Analytics page
 ![revenue_Analyticse](../truck/Logistics-and-Transportation%202.0/project_screenshorts/revenue_Analytics.JPG)
+=======
+![Index_page](./project_screenshorts/index_page.png)
+
+* Login Page
+![Login_Page](./project_screenshorts/login_page.png)
+
+* Dashbord Page
+![Dashbord_page](./project_screenshorts/Dashbord.png)
+
+* Driver management page
+![Driver_management_page](./project_screenshorts/Driver_management_section.JPG)
+
+* Transport History page
+![transport_History_page](./project_screenshorts/transport_History.png)
+
+* Truck management page
+![truck_management_page](./project_screenshorts/truck_management.JPG)
+
+* revenue Analytics page
+![revenue_Analyticse](./project_screenshorts/revenue_Analytics.JPG)
+>>>>>>> c7ef98fcb4a5fa8d5d260705a2434f1a9cf4cb13
 
 A modern, responsive web application for managing logistics and transportation operations with user management, and revenue analytics.
 
@@ -322,4 +348,8 @@ For support, email your-email@example.com or join our Slack channel.
 
 *Making Logistics Management Simple & Efficient*
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> c7ef98fcb4a5fa8d5d260705a2434f1a9cf4cb13
