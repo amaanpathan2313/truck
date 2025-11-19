@@ -8,6 +8,7 @@ function TransportHistory() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("all");
+  const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
   const [formData, setFormData] = useState({
     driverName: "",
     driverContact: "",
@@ -94,6 +95,12 @@ function TransportHistory() {
         return false;
       }
 
+      // Check if record is already completed or cancelled
+      if (currentRecord.status === 'completed' || currentRecord.status === 'cancelled') {
+        alert(`Cannot update status. This record is already ${currentRecord.status} and cannot be modified.`);
+        return false;
+      }
+
       // Create updated record with new status
       const updatedRecord = {
         ...currentRecord,
@@ -123,6 +130,7 @@ function TransportHistory() {
       return false;
     } finally {
       setUpdatingStatusId(null);
+      setDropdownOpen(null); // Close dropdown after update
     }
   };
 
@@ -152,6 +160,30 @@ function TransportHistory() {
       setDeletingId(null);
     }
   };
+
+  // // Toggle dropdown menu
+  // const toggleDropdown = (id, currentStatus) => {
+  //   // Don't open dropdown if record is completed or cancelled
+  //   if (currentStatus === 'completed' || currentStatus === 'cancelled') {
+  //     alert(`Cannot update status. This record is already ${currentStatus} and cannot be modified.`);
+  //     return;
+  //   }
+  //   setDropdownOpen(dropdownOpen === id ? null : id);
+  // };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown-container')) {
+        setDropdownOpen(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -230,35 +262,21 @@ function TransportHistory() {
     }
   };
 
-  // EDIT Button Logic - Only for status updates
-  const handleEditStatus = async (record) => {
-    const newStatus = prompt(
-      `Update delivery status for: ${record.route}\n\nCurrent Status: ${record.status}\n\nEnter new status (scheduled, in-progress, completed, cancelled):`,
-      record.status
-    );
-
-    if (newStatus && newStatus !== record.status) {
-      const validStatuses = ['scheduled', 'in-progress', 'completed', 'cancelled'];
-      if (validStatuses.includes(newStatus.toLowerCase())) {
-        const success = await updateStatus(record.id, newStatus.toLowerCase());
-        if (success) {
-          alert("Status updated successfully!");
-        } else {
-          alert("Failed to update status. Please try again.");
-        }
-      } else {
-        alert("Invalid status. Please use: scheduled, in-progress, completed, or cancelled");
-      }
+  // Handle status selection from dropdown
+  const handleStatusSelect = async (id, newStatus) => {
+    const success = await updateStatus(id, newStatus);
+    if (success) {
+      alert(`Status updated to ${newStatus} successfully!`);
+    } else {
+      // Error message is handled in updateStatus function
     }
   };
 
-  // Quick Status Update
+  // Handle quick status update
   const handleQuickStatusUpdate = async (id, status) => {
     const success = await updateStatus(id, status);
     if (success) {
       alert(`Status updated to ${status} successfully!`);
-    } else {
-      alert("Failed to update status. Please try again.");
     }
   };
 
@@ -294,6 +312,11 @@ function TransportHistory() {
     }
   };
 
+  // Check if status can be updated
+  const canUpdateStatus = (status) => {
+    return status !== 'completed' && status !== 'cancelled';
+  };
+
   const calculateProfit = (record) => {
     const revenue = parseFloat(record.revenue) || 0;
     const fuelCost = parseFloat(record.fuelCost) || 0;
@@ -311,7 +334,7 @@ function TransportHistory() {
     fetchHistory();
   }, []);
 
-  // Styles (same as before)
+  // Styles (same as before with additions for disabled state)
   const containerStyle = {
     margin: "-10px",
     minHeight: "100vh",
@@ -396,6 +419,58 @@ function TransportHistory() {
     overflow: "hidden",
   });
 
+  // New dropdown styles
+  const dropdownContainerStyle = {
+    position: 'relative',
+    display: 'inline-block',
+  };
+
+  const dropdownButtonStyle = (isDisabled) => ({
+    padding: "10px 16px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: isDisabled ? "not-allowed" : "pointer",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    transition: "all 0.3s ease",
+    minWidth: "140px",
+    backgroundColor: isDisabled ? '#9ca3af' : '#3b82f6',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '8px',
+    opacity: isDisabled ? 0.6 : 1,
+  });
+
+  const dropdownMenuStyle = {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+    zIndex: 1000,
+    marginTop: '5px',
+    overflow: 'hidden',
+  };
+
+  const dropdownItemStyle = {
+    padding: "10px 16px",
+    border: "none",
+    backgroundColor: 'transparent',
+    width: '100%',
+    textAlign: 'left',
+    cursor: "pointer",
+    fontSize: "0.9rem",
+    transition: "all 0.2s ease",
+    color: '#374151',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  };
+
   const formContainerStyle = {
     background: "rgba(255, 255, 255, 0.95)",
     backdropFilter: "blur(20px)",
@@ -419,7 +494,7 @@ function TransportHistory() {
   };
 
   const inputStyle = {
-    width: "100%",
+    width: "90%",
     padding: "12px 16px",
     fontSize: "1rem",
     borderRadius: "8px",
@@ -475,6 +550,31 @@ function TransportHistory() {
           
           .history-card {
             animation: fadeIn 0.5s ease-out;
+          }
+
+          .dropdown-item:hover {
+            background-color: #f3f4f6;
+          }
+
+          .dropdown-arrow {
+            transition: transform 0.3s ease;
+          }
+
+          .dropdown-open .dropdown-arrow {
+            transform: rotate(180deg);
+          }
+
+          .completed-badge, .cancelled-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
           }
         `}
       </style>
@@ -541,6 +641,7 @@ function TransportHistory() {
             📋 Add New Transport Record
           </h2>
           <form onSubmit={handleSubmit}>
+            {/* ... (form content remains exactly the same) ... */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               
               {/* Driver Information */}
@@ -755,7 +856,7 @@ function TransportHistory() {
                 <h3 style={{ color: '#374151', marginBottom: '15px' }}>💰 Financial Information</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px' }}>
                   <div>
-                    <label style={labelStyle}>Revenue ($)</label>
+                    <label style={labelStyle}>Revenue (₹)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -767,7 +868,7 @@ function TransportHistory() {
                     />
                   </div>
                   <div>
-                    <label style={labelStyle}>Fuel Cost ($)</label>
+                    <label style={labelStyle}>Fuel Cost (₹)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -779,7 +880,7 @@ function TransportHistory() {
                     />
                   </div>
                   <div>
-                    <label style={labelStyle}>Maintenance Cost ($)</label>
+                    <label style={labelStyle}>Maintenance Cost (₹)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -791,7 +892,7 @@ function TransportHistory() {
                     />
                   </div>
                   <div>
-                    <label style={labelStyle}>Toll Cost ($)</label>
+                    <label style={labelStyle}>Toll Cost (₹)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -803,7 +904,7 @@ function TransportHistory() {
                     />
                   </div>
                   <div>
-                    <label style={labelStyle}>Other Costs ($)</label>
+                    <label style={labelStyle}>Other Costs (₹)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -901,6 +1002,7 @@ function TransportHistory() {
             const profit = calculateProfit(record);
             const isBeingUpdated = updatingStatusId === record.id;
             const isBeingDeleted = deletingId === record.id;
+            const isFinalStatus = !canUpdateStatus(record.status);
             
             return (
               <div
@@ -910,6 +1012,13 @@ function TransportHistory() {
                 onMouseEnter={() => setHoveredCard(record.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
+                {/* Final Status Badge */}
+                {isFinalStatus && (
+                  <div className={record.status === 'completed' ? 'completed-badge' : 'cancelled-badge'}>
+                    {record.status === 'completed' ? '✅ Final - Completed' : '❌ Final - Cancelled'}
+                  </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
                   <div>
                     <h3 style={{ margin: '0 0 5px 0', fontSize: '1.3rem', fontWeight: '600' }}>
@@ -948,43 +1057,84 @@ function TransportHistory() {
                   </div>
                 )}
                 
-                {/* Quick Status Update Buttons */}
-                <div style={{ marginBottom: '15px' }}>
-                  <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', opacity: '0.8' }}>Quick Status:</p>
-                  <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                    {['scheduled', 'in-progress', 'completed', 'cancelled']
-                      .filter(status => status !== record.status)
-                      .map(status => (
-                        <button
-                          key={status}
-                          onClick={() => handleQuickStatusUpdate(record.id, status)}
-                          disabled={isBeingUpdated}
-                          style={{
-                            ...quickStatusButtonStyle,
-                            backgroundColor: getStatusColor(status),
-                            opacity: isBeingUpdated ? 0.6 : 1,
-                          }}
-                        >
-                          {getStatusIcon(status)} {status}
-                        </button>
-                      ))
-                    }
+                {/* Quick Status Update Buttons - Only show if status can be updated */}
+                {canUpdateStatus(record.status) && (
+                  <div style={{ marginBottom: '15px' }}>
+                    <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', opacity: '0.8' }}>Quick Status:</p>
+                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                      {['scheduled', 'in-progress', 'completed', 'cancelled']
+                        .filter(status => status !== record.status)
+                        .map(status => (
+                          <button
+                            key={status}
+                            onClick={() => handleQuickStatusUpdate(record.id, status)}
+                            disabled={isBeingUpdated}
+                            style={{
+                              ...quickStatusButtonStyle,
+                              backgroundColor: getStatusColor(status),
+                              opacity: isBeingUpdated ? 0.6 : 1,
+                            }}
+                          >
+                            {getStatusIcon(status)} {status}
+                          </button>
+                        ))
+                      }
+                    </div>
                   </div>
-                </div>
+                )}
                 
                 {/* Action Buttons */}
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <button
-                    onClick={() => handleEditStatus(record)}
-                    disabled={isBeingUpdated || isBeingDeleted}
-                    style={{
-                      ...actionButtonStyle,
-                      backgroundColor: isBeingUpdated ? '#9ca3af' : '#3b82f6',
-                      color: 'white',
-                    }}
-                  >
-                    {isBeingUpdated ? '🔄 Updating...' : '✏️ Update Status'}
-                  </button>
+                  {/* Dropdown Status Update Button - Only show if status can be updated */}
+                  {canUpdateStatus(record.status) ? (
+                    <div 
+                      className="dropdown-container"
+                      style={dropdownContainerStyle}
+                    >
+                      {/* <button
+                        onClick={() => toggleDropdown(record.id, record.status)}
+                        disabled={isBeingUpdated || isBeingDeleted}
+                        style={dropdownButtonStyle(isBeingUpdated || isBeingDeleted)}
+                        className={dropdownOpen === record.id ? 'dropdown-open' : ''}
+                      >
+                        <span>{isBeingUpdated ? '🔄 Updating...' : '✏️ Update Status'}</span>
+                        <span className="dropdown-arrow">▼</span>
+                      </button> */}
+                      
+                      {dropdownOpen === record.id && (
+                        <div style={dropdownMenuStyle}>
+                          {['scheduled', 'in-progress', 'completed', 'cancelled']
+                            .filter(status => status !== record.status)
+                            .map(status => (
+                              <button
+                                key={status}
+                                onClick={() => handleStatusSelect(record.id, status)}
+                                style={{
+                                  ...dropdownItemStyle,
+                                  borderBottom: '1px solid #f3f4f6',
+                                }}
+                                className="dropdown-item"
+                              >
+                                {getStatusIcon(status)} {status.charAt(0).toUpperCase() + status.slice(1)}
+                              </button>
+                            ))
+                          }
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    // Show disabled button with message for completed/cancelled records
+                    <button
+                      disabled
+                      style={{
+                        ...dropdownButtonStyle(true),
+                        cursor: 'not-allowed',
+                      }}
+                      title={`This record is ${record.status} and cannot be modified`}
+                    >
+                      🔒 Status Locked
+                    </button>
+                  )}
                   
                   <button
                     onClick={() => handleDelete(record.id, record.route)}
@@ -998,6 +1148,20 @@ function TransportHistory() {
                     {isBeingDeleted ? '🗑️ Deleting...' : '❌ Delete'}
                   </button>
                 </div>
+
+                {/* Information message for completed/cancelled records */}
+                {isFinalStatus && (
+                  <div style={{
+                    marginTop: '10px',
+                    padding: '8px 12px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    borderRadius: '6px',
+                    fontSize: '0.8rem',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                  }}>
+                    ℹ️ This record is <strong>{record.status}</strong> and can no longer be updated.
+                  </div>
+                )}
               </div>
             );
           })

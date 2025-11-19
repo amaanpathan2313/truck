@@ -135,7 +135,7 @@ function AdminHome() {
   return (
     <div style={containerStyle}>
       <div style={headerStyle}>
-        <h1 style={titleStyle}>Admin Dashboard</h1>
+        <h1 style={titleStyle}>Smart Fleet Management Hub</h1>
         <button 
           onClick={signOut} 
           style={logoutBtn}
@@ -199,7 +199,7 @@ function AdminHome() {
         maxWidth: '600px',
         lineHeight: '1.6'
       }}>
-        <p>Welcome to your administration dashboard. Select any option above to manage your fleet operations.</p>
+        <p>Welcome to Smart Fleet Management Hub. Select any option above to manage your fleet operations.</p>
       </div>
     </div>
   );

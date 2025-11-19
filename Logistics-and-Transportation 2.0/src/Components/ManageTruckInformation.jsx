@@ -109,17 +109,16 @@ function ManageTruckInformation() {
     background: "rgba(255, 255, 255, 0.95)",
     backdropFilter: "blur(20px)",
     borderRadius: "20px",
-    padding: "60px",
+    padding: "40px",
     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
     marginBottom: "40px",
     border: "1px solid rgba(255, 255, 255, 0.3)",
-    maxWidth: "600px",
+    maxWidth: "800px",
     margin: "0 auto 40px",
   };
 
   const inputGroupStyle = {
     marginBottom: "20px",
-   
   };
 
   const labelStyle = {
@@ -131,8 +130,7 @@ function ManageTruckInformation() {
   };
 
   const inputStyle = {
-    // border : "5px solid black",
-    width: "100%",
+    width: "90%",
     padding: "12px 16px",
     fontSize: "1rem",
     borderRadius: "8px",
@@ -141,8 +139,6 @@ function ManageTruckInformation() {
     transition: "all 0.3s ease",
     outline: "none",
     color: "#1f2937",
-    width : "80%"
-  
   };
 
   const buttonStyle = {
@@ -312,6 +308,17 @@ function ManageTruckInformation() {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
           }
+
+          input[type="date"] {
+            padding: 12px 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          }
+
+          input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+          }
         `}
       </style>
 
@@ -321,7 +328,7 @@ function ManageTruckInformation() {
 
       {/* Add Truck Form */}
       <div style={formContainerStyle}>
-        <h2 style={{ color: '#1f2937', marginBottom: '25px', textAlign: 'center' }}>
+        <h2 style={{ color: '#1f2937', marginBottom: '25px', textAlign: 'center', fontSize: '1.8rem' }}>
           ➕ Add New Truck
         </h2>
         <form onSubmit={onSubmit}>
@@ -342,20 +349,20 @@ function ManageTruckInformation() {
             <div style={inputGroupStyle}>
               <label style={labelStyle}>Model Number *</label>
               <input
-                type="number"
+                type="text"
                 name="model_no"
                 value={obj.model_no}
                 onChange={onChange}
                 style={inputStyle}
                 required
-                placeholder="Enter model number"
+                placeholder="Enter model number (e.g., FH16, 389)"
               />
             </div>
             
             <div style={inputGroupStyle}>
               <label style={labelStyle}>Passing Date *</label>
               <input
-                type="number"
+                type="date"
                 name="passing_date"
                 value={obj.passing_date}
                 onChange={onChange}
@@ -368,7 +375,7 @@ function ManageTruckInformation() {
             <div style={inputGroupStyle}>
               <label style={labelStyle}>Insurance Expiry *</label>
               <input
-                type="text"
+                type="date"
                 name="insurance"
                 value={obj.insurance}
                 onChange={onChange}
@@ -381,7 +388,7 @@ function ManageTruckInformation() {
             <div style={inputGroupStyle}>
               <label style={labelStyle}>PUC Expiry *</label>
               <input
-                type="text"
+                type="date"
                 name="puc"
                 value={obj.puc}
                 onChange={onChange}
@@ -400,18 +407,19 @@ function ManageTruckInformation() {
                 onChange={onChange}
                 style={inputStyle}
                 required
-                placeholder="Enter truck number"
+                placeholder="Enter truck number (e.g., MH12AB1234)"
               />
             </div>
           </div>
           
-          <div style={{ display: 'flex', gap: '15px', marginTop: '25px', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '15px', marginTop: '25px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               type="submit"
               style={{
                 ...buttonStyle,
                 backgroundColor: '#10b981',
                 padding: '12px 30px',
+                minWidth: '150px'
               }}
               onMouseOver={(e) => {
                 e.target.style.backgroundColor = "#059669";
@@ -436,6 +444,7 @@ function ManageTruckInformation() {
                 ...buttonStyle,
                 backgroundColor: '#6b7280',
                 padding: '12px 30px',
+                minWidth: '150px'
               }}
               onMouseOver={(e) => {
                 e.target.style.backgroundColor = "#4b5563";
@@ -444,7 +453,7 @@ function ManageTruckInformation() {
                 e.target.style.backgroundColor = "#6b7280";
               }}
             >
-              🗑️ Clear
+              🗑️ Clear Form
             </button>
           </div>
         </form>
@@ -455,11 +464,11 @@ function ManageTruckInformation() {
         {data.length === 0 ? (
           <div style={emptyStateStyle}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🚛</div>
-            <h3>No Trucks Found</h3>
-            <p>Add some trucks to get started with your fleet management.</p>
+            <h3 style={{ marginBottom: '10px', fontSize: '1.5rem' }}>No Trucks Found</h3>
+            <p style={{ opacity: 0.8 }}>Add some trucks to get started with your fleet management.</p>
           </div>
         ) : (
-          data.map((ele, index) => (
+          data.map((ele) => (
             <div 
               key={ele.id}
               style={cardStyle(ele.id)}
@@ -469,7 +478,17 @@ function ManageTruckInformation() {
               <div style={cardContentStyle}>
                 <span style={truckIconStyle}>🚛</span>
                 
-                <h4 style={{ ...infoStyle, fontSize: '1.4rem', marginBottom: '20px', borderBottom: '2px solid rgba(255,255,255,0.3)', paddingBottom: '10px' }}>
+                <h4 style={{ 
+                  ...infoStyle, 
+                  fontSize: '1.4rem', 
+                  marginBottom: '20px', 
+                  borderBottom: '2px solid rgba(255,255,255,0.3)', 
+                  paddingBottom: '10px',
+                  background: 'linear-gradient(135deg, #fff, #e3f2fd)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}>
                   {ele.number}
                 </h4>
                 

@@ -294,7 +294,7 @@ function ManageDriver() {
   };
 
   const inputStyle = {
-    width: "100%",
+    width: "90%",
     padding: "12px 16px",
     fontSize: "1rem",
     borderRadius: "8px",
@@ -582,7 +582,7 @@ function ManageDriver() {
         </div>
       ) : (
         <div style={gridContainerStyle}>
-          {data.map((ele, index) => (
+          {data.map((ele) => (
             <div 
               key={ele.id}
               style={cardStyle(ele.id)}
